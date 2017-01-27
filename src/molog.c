@@ -996,7 +996,7 @@ static int processLogLine(const int logcode,
             goto nextblock;
         }
         facility_ok:
-        if (priority > block->minimum && priority < block->maximum) {
+        if (priority > block->minimum || priority < block->maximum) {
             goto nextblock;
         }
         if (block->program != NULL && strcasecmp(block->program, prg) != 0) {

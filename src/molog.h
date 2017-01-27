@@ -147,7 +147,7 @@ typedef enum LogLineType_ {
 } LogLineType;
 
 #define DEFAULT_MINIMUM LOG_DEBUG
-#define DEFAULT_MAXIMUM INT_MAX
+#define DEFAULT_MAXIMUM 0
 #define DEFAULT_MAXSIZE ((off_t) 1000000)
 #define DEFAULT_MAXFILES 5
 #define DEFAULT_MAXTIME ((time_t) 60 * 60 * 24)
