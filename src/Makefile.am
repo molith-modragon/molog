@@ -1,16 +1,16 @@
 AM_CFLAGS = $(WFLAGS)
 
 sbin_PROGRAMS = \
-	metalog
+	molog
 
 AM_CPPFLAGS = \
 	-DCONFDIR=\"$(sysconfdir)\" \
 	-I$(top_srcdir)/gnulib/lib
 
-metalog_SOURCES = \
+molog_SOURCES = \
 	helpers.h \
-	metalog.c \
-	metalog.h \
-	metalog_p.h
+	molog.c \
+	molog.h \
+	molog_p.h
 	syslognames.h
-metalog_LDADD = $(top_builddir)/gnulib/lib/libgnu.a
+molog_LDADD = $(top_builddir)/gnulib/lib/libgnu.a

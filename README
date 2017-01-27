@@ -1,26 +1,40 @@
 
-                               .:. METALOG .:.
+                                .:. MOLOG .:.
 
 
 
            ------------------------ BLURB ------------------------
 
 
-Metalog is a modern replacement for syslogd and klogd. The logged messages
-can be dispatched according to their facility, urgency, program name and/or
+MoLog is a branch of metalog (http://metalog.sourceforge.net/),which is a
+modern replacement for syslogd and klogd. The logged messages can be
+dispatched according to their facility, urgency, program name and/or
 Perl-compatible regular expressions. Log files can be automatically rotated
 when they exceed a certain size or age. External shell scripts (e.g., mail)
 can be launched when specific patterns are found.
 
-Metalog is simple to configure, accepts unlimited number of rules and has
+Molog is simple to configure, accepts unlimited number of rules and has
 (switchable) memory bufferization for maximal performance.
 
-http://metalog.sourceforge.net/
+However, it suffers from a broken concept for minimum and maximum in the
+configuration, as minimum refers to the minimum severity which should be
+logged, but maximum referring to the maximum log level (numerical).
+
+This is especially frustrating, if one tries to log only a single log level.
+E.g. setting minimum = 4 and maximum = 6, logs everything but 5.
+Also minimum = 6 and maximum = 4 doesn't work.
+
+MoLog fixes this by defining minimum and maximum to be referring to the
+severity:
+minimum = 5 and maximum = 4 will log only level 4 and 5.
+
+To only log level 0 (emerg), you would simply set minimum = 0, and 
+maximum = 0.
 
         ------------------------ COMPILATION ------------------------
         
         
-In order to compile Metalog, you should have the PCRE library on your
+In order to compile Molog, you should have the PCRE library on your
 system. That library is used to process Perl-compatible regular expressions.
 
 libpcre comes with many distributions, but you can also download it from :
@@ -29,7 +43,7 @@ libpcre comes with many distributions, but you can also download it from :
                              
 Once installed, don't forget to run "ldconfig".
 
-Then, compiling and installing Metalab isn't rocket science :
+Then, compiling and installing molog isn't rocket science :
 
 ./configure
 make install-strip
@@ -39,7 +53,7 @@ make install-strip
        
        
 A configuration file should be installed. Its default location is
-/etc/metalog.conf (unless you tweaked --with-sysconfdir) . You can find a
+/etc/molog.conf (unless you tweaked --with-sysconfdir) . You can find a
 sample file in this directory, but it's certainly not perfect for your system
 and your needs. So read on.
 
@@ -88,21 +102,30 @@ launch an external script.
 
 Here's a list of values that can be independently assigned for each section :
 
-* minimum = <level> : only record a message if its urgency is inferior or
-equal to <level> . Level '0' is the most critical one, while level '7' is for
-debugging messages. 'minimum = 5' will strip all non-important messages. The
-default minimum level is 7 (ie. keep all messages) .
+* minimum = <level> : only record a message if its severity is higher or
+equal to <level>. Level '0' (LOG_EMERG) is the most critical severity,
+while '7' (LOG_DEBUG) is the least critical severity. The default minimum
+level is '7' (LOG_DEBUG) (i.e. log all messages)
 
 Example : record only critical messages to /var/log/important :
 
 Critical messages :
-
   facility = "*"
   minimum  = 1
   logdir   = "/var/log/important"
 
-* maximum = <level> : don't log if the message level exceeds that value. By
-default, maximum is the largest possible level.
+* maximum = <level> : only record a message if its urgency is below or equal
+to <level>. Level '0' (LOG_EMERG) is the most critical severity, while
+'7' (LOG_DEBUG) is the least critical severity. The default maximum level is
+'0' (LOG_EMERG) (i.e. log all messages)
+
+Example : record only unimportant (notice, info, debug) messages to
+/var/log/spam :
+
+Spam messages :
+  facility = "*"
+  maximum  = 5
+  logdir   = "/var/log/spam"
 
 * facility = <facility> : only record a message if the application that issued
 it uses syslog facility <facility> .
@@ -301,16 +324,16 @@ bad idea to restart the daemon (and even better : to stop it before you mess
 the directories) .
 
   
-      ------------------------ RUNNING METALOG ------------------------
+      ------------------------ RUNNING MOLOG ------------------------
       
 
-Kill "klogd" and "syslogd" first. Don't run Metalog while they are running.
+Kill "klogd" and "syslogd" first. Don't run Molog while they are running.
 Multiple programs listening for the same source of data is a silly idea.
 
 Once these programs are killed (and you are *sure* they are killed), check
-that /etc/metalog.conf is installed, and simply run :
+that /etc/molog.conf is installed, and simply run :
 
-/usr/local/sbin/metalog &
+/usr/local/sbin/molog &
 
 On GNU/Linux systems, two processes are spawned : one is the "MASTER", doing
 much of the work. The other one (named "KERNEL") is needed for Linux and
@@ -320,15 +343,15 @@ By default, messages are immediately recorded into log files, and the I/O
 cache is flushed to be sure that you don't loose any message if a fatal crash
 or a power outage occurs.
 
-But if you prefer speed, Metalog can work asynchronously, using the --async
+But if you prefer speed, Molog can work asynchronously, using the --async
 switch. In this mode, to avoid disk I/O, and unlike traditional syslog
-daemons, Metalog works in memory buffers, then flushes the data to disk by
+daemons, Molog works in memory buffers, then flushes the data to disk by
 blocks. It improves a lot overall performances.
 
 If you temporarely want to switch to the asynchronous mode, send an USR2
 signal to the process. Something like :
 
-kill -USR2 $(cat /var/run/metalog.pid)
+kill -USR2 $(cat /var/run/molog.pid)
 
 should do the trick.
 
@@ -340,7 +363,7 @@ on a log file), you can disable buffering. Just send an USR1 signal to the
      ------------------------ RUN-TIME OPTIONS ------------------------
       
       
-Metalog accepts some run-time options :
+Molog accepts some run-time options :
 
 - '-a' or '--async' : improve performance by using buffers (but log files
 won't get updated in real time) .
@@ -357,7 +380,7 @@ alternative configuration file.
 - '-h' or '--help' : show help and version number.
 
 - '-p <filename>' or '--pidfile=<filename>' : set the name of the file
-that will hold the PID number. It defaults to /var/run/metalog.pid
+that will hold the PID number. It defaults to /var/run/molog.pid
 
 - '-s' or '--sync' : start in synchronous mode, with no bufferization.
 

@@ -160,11 +160,11 @@ typedef enum LogLineType_ {
 #define OUTPUT_DIR_PERMS 0700
 #define OUTPUT_DIR_LOGFILES_PREFIX "log-"
 #define OUTPUT_DIR_LOGFILES_SUFFIX "%Y-%m-%d-%H:%M:%S"
-#define DEFAULT_CONFIG_FILE CONFDIR "/metalog.conf"
-#define DEFAULT_PID_FILE "/var/run/metalog.pid"
+#define DEFAULT_CONFIG_FILE CONFDIR "/molog.conf"
+#define DEFAULT_PID_FILE "/var/run/molog.pid"
 #define NONPRINTABLE_SUSTITUTE_CHAR '_'
-#define PROGNAME_MASTER "metalog [MASTER]"
-#define PROGNAME_KERNEL "metalog [KERNEL]"
+#define PROGNAME_MASTER "molog [MASTER]"
+#define PROGNAME_KERNEL "molog [KERNEL]"
 #define LAST_OUTPUT "                - Last output repeated %u times -\n"
 #define LAST_OUTPUT_TWICE "                - Last output repeated twice -\n"
 #define MAX_SIGNIFICANT_LENGTH 512U

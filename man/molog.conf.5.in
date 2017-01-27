@@ -1,7 +1,7 @@
-.TH "metalog.conf" "5" "@VERSION@" "Frank DENIS" "Metalog configuration file"
+.TH "molog.conf" "5" "@VERSION@" "Dennis Pfau" "Molog configuration file"
 .SH "NAME"
 .LP
-metalog.conf \- configuration file for metalog
+molog.conf \- configuration file for molog
 .SH "SYNTAX"
 .LP
 .nf
@@ -59,14 +59,16 @@ duplication, while using break = 1 on the sections above the "catch-all" would
 avoid duplication.
 .TP
 .B minimum
-minimum = <level> : Only record a message if its urgency is inferior or equal to
-<level> . Level '0' is the most critical one, while level '7' is for debugging
-messages. 'minimum = 5' will strip all non-important messages. The default
-minimum level is 7 (ie. keep all messages).
+minimum = <level> : Only record a message if its severity is higher or equal to
+<level>. Level '0' (LOG_EMERG) is the most critical severity, while '7' (LOG_DEBUG)
+is the least critical severity. The default minimum level is '7' (LOG_DEBUG)
+(i.e. log all messages).
 .TP
 .B maximum
-maximum = <level> : don't log if the message level exceeds that value. By
-default, maximum is the largest possible level.
+maximum = <level> : Only record a message if its urgency is below or equal to
+<level>. Level '0' (LOG_EMERG) is the most critical severity, while '7' (LOG_DEBUG)
+is the least critical severity. The default maximum level is '0' (LOG_EMERG)
+(i.e. log all messages).
 .TP
 .B logdir
 logdir = "/path/where/logs/will/be/written" : files will be written in
@@ -87,7 +89,7 @@ the opposite of given patterns. Several neg_regex can be defined in a section.
 .TP
 .B postrotate_cmd
 postrotate_cmd = "/path/to/a/program". Run specified program after a log file
-has been rotated. The program is passed the date, the program name ("metalog"),
+has been rotated. The program is passed the date, the program name ("molog"),
 and the new logfile name.
 .TP
 .B program_regex
@@ -141,11 +143,12 @@ invalid and will be rejected.
 Note that the exact paths depend on the build settings.  These are the standard paths.
 
 .nf
-.I /etc/metalog.conf
+.I /etc/molog.conf
 .fi
 .SH "AUTHORS"
 .LP
 .nf
+Dennis Pfau <dpfau@modragon.de>
 Mike Frysinger <vapier@gentoo.org>
 Laurent Wandrebeck (low) <wandre.l@free.fr>
 Leo Lipelis <aeoo@gentoo.org>
@@ -153,4 +156,4 @@ Hendrik Visage <hvisage@users.sourceforge.net>
 Frank DENIS (Jedi/Sector One) <j@pureftpd.org>
 .fi
 .SH "SEE ALSO"
-.BR metalog (8)
+.BR molog (8)

@@ -1,8 +1,8 @@
 AC_PREREQ(2.68)
-AC_INIT([metalog], [4], [metalog-users@lists.sourceforge.net])
+AC_INIT([molog], [4], [])
 AM_INIT_AUTOMAKE([1.11 dist-xz no-dist-gzip silent-rules -Wall])
 AM_SILENT_RULES([yes])
-AC_CONFIG_SRCDIR(src/metalog.c)
+AC_CONFIG_SRCDIR(src/molog.c)
 AM_CONFIG_HEADER(config.h)
 
 dnl Lie about gnulib crap we dont care about
@@ -107,10 +107,10 @@ AC_CONFIG_FILES(m4_flatten([
 	gnulib/lib/Makefile
 	src/Makefile
 	man/Makefile
-	man/metalog.8
-	man/metalog.conf.5
-	metalog.spec
-	metalog.lsm
+	man/molog.8
+	man/molog.conf.5
+	molog.spec
+	molog.lsm
 ]))
 
 AC_OUTPUT

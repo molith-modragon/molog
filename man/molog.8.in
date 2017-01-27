@@ -1,19 +1,19 @@
-.TH "metalog" "8" "@VERSION@" "Frank DENIS" "Syslog daemon"
+.TH "molog" "8" "@VERSION@" "Dennis Pfau" "Syslog daemon"
 .SH "NAME"
 .LP
-metalog \- an alternative syslog daemon
+molog \- an alternative syslog daemon
 .SH "SYNTAX"
 .LP
-metalog [\fIoptions\fR]
+molog [\fIoptions\fR]
 .SH "DESCRIPTION"
 .LP
-Metalog is a modern replacement for syslogd and klogd. The logged messages
+Molog is a modern replacement for syslogd and klogd. The logged messages
 can be dispatched according to their facility, urgency, program name and/or
 Perl\-compatible regular expressions. Log files can be automatically rotated
 when they exceed a certain size or age. External shell scripts (ex: mail)
 can be launched when specific patterns are found.
 
-Metalog is easier to configure than syslogd and syslog\-ng, accepts unlimited
+Molog is easier to configure than syslogd and syslog\-ng, accepts unlimited
 number of rules and has (switchable) memory bufferisation for maximal
 performance.
 .SH "OPTIONS"
@@ -49,7 +49,7 @@ Can be overridden for individual logs.
 Run in verbose mode (useful for debugging behavior).
 .TP
 .BR \-V ", " \-\-version
-Display metalog version information.
+Display molog version information.
 .SH "SIGNALS"
 .TP
 .B SIGUSR1
@@ -63,13 +63,14 @@ Disable synchronous mode.
 Note that the exact paths depend on the build settings.  These are the standard paths.
 
 .nf
-.I /etc/metalog.conf
-.I /var/run/metalog.pid
+.I /etc/molog.conf
+.I /var/run/molog.pid
 .I /dev/log
 .fi
 .SH "AUTHORS"
 .LP
 .nf
+Dennis Pfau <dpfau@modragon.de>
 Mike Frysinger <vapier@gentoo.org>
 Laurent Wandrebeck (low) <wandre.l@free.fr>
 Leo Lipelis <aeoo@gentoo.org>
@@ -77,4 +78,4 @@ Hendrik Visage <hvisage@users.sourceforge.net>
 Frank DENIS (Jedi/Sector One) <j@pureftpd.org>
 .fi
 .SH "SEE ALSO"
-.BR metalog.conf (5)
+.BR molog.conf (5)
